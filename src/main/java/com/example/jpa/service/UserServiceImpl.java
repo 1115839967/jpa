@@ -10,6 +10,7 @@ import org.springframework.util.CollectionUtils;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by on 2020-03-13 14:26
@@ -24,9 +25,8 @@ public class UserServiceImpl implements UserService{
     private UserRepository userRepository;
 
     @Override
-    public UserEntity get(Integer id) {
-        return userRepository.getOne(id);
-
+    public UserEntity findById(String id) {
+        return userRepository.findById(id).orElse(null);
     }
 
     @Override

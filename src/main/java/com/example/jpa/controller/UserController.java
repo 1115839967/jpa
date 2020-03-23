@@ -3,18 +3,16 @@ package com.example.jpa.controller;
 import com.example.jpa.entity.UserEntity;
 import com.example.jpa.service.UserService;
 import com.example.jpa.utils.JsonResult;
-import org.apache.catalina.User;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Optional;
 
 /**
- * Created by on 2020-03-13 14:31
- *
  * @author xutiancheng
- * @since
+ * @since 2020年03月19日14:57:51
  */
 
 @RestController
@@ -24,36 +22,35 @@ public class UserController {
     @Resource
     private UserService userService;
 
-    @GetMapping("/getById")
-    public JsonResult getUserById(@RequestParam Integer id) {
-        UserEntity user = userService.get(id);
-        if (null == user) {
-            return new JsonResult(true, "未查到数据", null);
-        }
-
-        return new JsonResult(true, null, user);
+    @GetMapping("/findOne")
+    public JsonResult findOne(@RequestParam String id) {
+        UserEntity user = userService.findById(id);
+        Optional.ofNullable(user).ifPresent(u -> {
+            System.out.println(u.getRealName());
+        });
+        return new JsonResult(true, "", user);
     }
 
     @GetMapping("/findAll")
-    public String findAll() {
+    public JsonResult findAll() {
         List<UserEntity> all = userService.findAll();
         if (CollectionUtils.isEmpty(all)) {
-            return "empty";
+            return new JsonResult(true, "empty", null);
         }
 
-        return "notEmpty";
+        return new JsonResult(true, "", all);
     }
 
     @PostMapping("/save")
-    public String save(@RequestBody UserEntity userEntity) {
-        try {
+    public JsonResult save(@RequestBody UserEntity userEntity) {
+        try {/**/
             userService.save(userEntity);
         } catch (Exception e) {
             e.printStackTrace();
-            return "false";
+            return new JsonResult(false, "保存失败");
         }
 
-        return "true";
+        return new JsonResult(true, "保存成功");
     }
 
 }

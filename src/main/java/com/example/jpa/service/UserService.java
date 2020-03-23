@@ -5,7 +5,8 @@ import com.example.jpa.entity.UserEntity;
 import java.util.List;
 
 public interface UserService {
-    UserEntity get(Integer id);
+
+    UserEntity findById(String id);
 
     List<UserEntity> findAll();
 
