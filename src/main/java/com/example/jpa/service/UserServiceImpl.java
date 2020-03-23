@@ -19,7 +19,7 @@ import java.util.Optional;
  * @since
  */
 @Service("userService")
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     @Resource
     private UserRepository userRepository;

@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * @author xutiancheng
@@ -43,8 +45,17 @@ public class UserController {
 
     @PostMapping("/save")
     public JsonResult save(@RequestBody UserEntity userEntity) {
-        try {/**/
-            userService.save(userEntity);
+        if (Stream.of(userEntity.getRealName(), userEntity.getPassword(), userEntity.getUserName())
+                .anyMatch(Objects::isNull)) {
+            return new JsonResult(false, "ILLEGAL_PARAM");
+        }
+
+        try {
+            UserEntity user = new UserEntity();
+            user.setPassword(userEntity.getPassword());
+            user.setRealName(userEntity.getRealName());
+            user.setUserName(userEntity.getUserName());
+            userService.save(user);
         } catch (Exception e) {
             e.printStackTrace();
             return new JsonResult(false, "保存失败");
