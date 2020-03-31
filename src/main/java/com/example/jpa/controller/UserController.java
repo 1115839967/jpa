@@ -7,6 +7,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -34,7 +35,8 @@ public class UserController {
     }
 
     @GetMapping("/findAll")
-    public JsonResult findAll() {
+    public JsonResult findAll(HttpServletRequest request) {
+        System.out.println(request.getParameter("corpCode"));
         List<UserEntity> all = userService.findAll();
         if (CollectionUtils.isEmpty(all)) {
             return new JsonResult(true, "empty", null);
@@ -62,6 +64,15 @@ public class UserController {
         }
 
         return new JsonResult(true, "保存成功");
+    }
+
+
+    @PostMapping("/list")
+    public void list(@RequestParam List<String> userIdList) {
+
+        for (String s : userIdList) {
+            System.out.println(s);
+        }
     }
 
 }
