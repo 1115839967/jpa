@@ -3,6 +3,7 @@ package com.example.jpa.controller;
 import com.example.jpa.entity.UserEntity;
 import com.example.jpa.service.UserService;
 import com.example.jpa.utils.JsonResult;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,10 +21,15 @@ import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/user")
-public class UserController {
+public class UserController implements InitializingBean {
 
     @Resource
     private UserService userService;
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        System.out.println("++++++初始化成功！！！");
+    }
 
     @GetMapping("/findOne")
     public JsonResult findOne(@RequestParam String id) {
