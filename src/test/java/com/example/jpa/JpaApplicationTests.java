@@ -14,11 +14,4 @@ class JpaApplicationTests {
     @Resource
     private UserController userController;
 
-    @Test
-    void contextLoads() {
-        JsonResult result = userController.findAll();
-        System.out.println(result.getResult());
-
-    }
-
 }
